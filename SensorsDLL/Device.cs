@@ -180,6 +180,19 @@ namespace Device
             get { return motionAttitudeReading.Quaternion.ToUnityQuaternion(); }
         }
 
+        static public float MotionAttitudeYaw
+        {
+            get { return motionAttitudeReading.Yaw; }
+        }
+        static public float MotionAttitudePitch
+        {
+            get { return motionAttitudeReading.Pitch; }
+        }
+        static public float MotionAttitudeRoll
+        {
+            get { return motionAttitudeReading.Roll; }
+        }
+
         static private void handler_Compass(object sender, SensorReadingEventArgs<CompassReading> e)
         {
             compassTrueHeading = (float)e.SensorReading.TrueHeading;

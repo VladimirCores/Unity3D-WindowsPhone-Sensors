@@ -123,5 +123,18 @@ namespace Device
             get { return Quaternion.identity; }
         }
 
+        static public float MotionAttitudeYaw
+        {
+            get { return 0f; }
+        }
+        static public float MotionAttitudePitch
+        {
+            get { return 0f; }
+        }
+        static public float MotionAttitudeRoll
+        {
+            get { return 0f; }
+        }
+
     }
 }
