@@ -38,12 +38,9 @@ public class GyroscopeSensor : MonoBehaviour, ISensorData
 
     void FixedUpdate()
     {
-       if (UseNative)
+        if (UseNative)
         {
-            if (UseComponentsOutputs)
-            {
-                _angle = OutputX ? Device.Sensors.GyroscopeCurrentRotationX : OutputY ? Device.Sensors.GyroscopeCurrentRotationY : OutputZ ? Device.Sensors.GyroscopeCurrentRotationZ : 0;
-            }
+            if (UseComponentsOutputs) _angle = GetOutputRotationNativeValue();
             else
             {
                 _rotation = Device.Sensors.GyroscopeCurrentRotation;
@@ -89,12 +86,7 @@ public class GyroscopeSensor : MonoBehaviour, ISensorData
     {
         get
         {
-            _rotation.Set(
-                (float)Device.Sensors.GyroscopeCurrentRotationX,
-                (float)Device.Sensors.GyroscopeCurrentRotationY,
-                (float)Device.Sensors.GyroscopeCurrentRotationZ
-            );
-            _angle = GetOutputRotationValue();
+            _angle = GetOutputRotationNativeValue();
             return _angle;
         }
     }
@@ -134,6 +126,11 @@ public class GyroscopeSensor : MonoBehaviour, ISensorData
     private float GetOutputRotationValue()
     {
         float result = OutputX ? _rotation.x : OutputY ? _rotation.y : OutputZ ? _rotation.z : 0;
+        return result;
+    }
+    private float GetOutputRotationNativeValue()
+    {
+        float result = OutputX ? Device.Sensors.GyroscopeCurrentRotationX : OutputY ? Device.Sensors.GyroscopeCurrentRotationY : OutputZ ? Device.Sensors.GyroscopeCurrentRotationZ : 0;
         return result;
     }
 }

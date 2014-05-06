@@ -130,17 +130,15 @@ namespace Device
 
         static public float GyroscopeCurrentRotationX
         {
-            get { return gyroCumulativeRotation.X; }
+            get { return gyroCumulativeRotation.X * Mathf.Rad2Deg; }
         }
-
         static public float GyroscopeCurrentRotationY
         {
-            get { return gyroCumulativeRotation.Y; }
+            get { return gyroCumulativeRotation.Y * Mathf.Rad2Deg; }
         }
-
         static public float GyroscopeCurrentRotationZ
         {
-            get { return gyroCumulativeRotation.Z; }
+            get { return gyroCumulativeRotation.Z * Mathf.Rad2Deg; }
         }
 
         static public bool MotionIsAvailable
