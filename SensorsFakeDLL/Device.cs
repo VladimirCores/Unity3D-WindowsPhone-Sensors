@@ -64,7 +64,7 @@ namespace Device
             }
         }
 
-        public static bool GyroscopeStart(bool componentsOutput)
+        public static bool GyroscopeStart()
         {
             bool result = GyroscopeIsAvailable;
             return result;

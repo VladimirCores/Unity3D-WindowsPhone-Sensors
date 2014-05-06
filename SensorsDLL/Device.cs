@@ -18,13 +18,11 @@ namespace Device
         static private Compass          compass;
         static private float            compassMagneticHeading;
         static private float            compassTrueHeading;
-        static private bool             componentOutput = true;
 
         static private Gyroscope        gyro;
         static private DateTimeOffset   gyroLastUpdateTime      = DateTimeOffset.MinValue;
         static private Vector3          gyroCurrentRotationRate = Vector3.Zero;
         static private Vector3          gyroCumulativeRotation = Vector3.Zero;
-        static private Vector3          gyroCumulativeRotationOutput = Vector3.Zero;
 
         static private Motion           motion;
         static private AttitudeReading  motionAttitudeReading;
@@ -91,15 +89,12 @@ namespace Device
         {
             get { return Gyroscope.IsSupported; }
         }
-
-        static public bool GyroscopeStart(bool componentsOutput)
+        static public bool GyroscopeStart()
         {
             bool result = GyroscopeIsAvailable;
-            componentOutput = componentsOutput;
             if (result)
             {
                 gyroCumulativeRotation = Vector3.Zero;
-                gyroCumulativeRotationOutput = Vector3.Zero;
 
                 gyro = new Gyroscope();
                 gyro.TimeBetweenUpdates = TimeSpan.FromMilliseconds(20);
@@ -115,19 +110,16 @@ namespace Device
             }
             return result;
         }
-
         static public void GyroscopeStop()
         {
             gyro.Stop();
             gyro.CurrentValueChanged -= handler_Gyroscope;
             gyro.Dispose();
         }
-
         static public UnityEngine.Vector3 GyroscopeCurrentRotation
         {
             get { return gyroCumulativeRotation.ToUnityVector3() * Mathf.Rad2Deg; }
         }
-
         static public float GyroscopeCurrentRotationX
         {
             get { return gyroCumulativeRotation.X * Mathf.Rad2Deg; }
@@ -140,6 +132,7 @@ namespace Device
         {
             get { return gyroCumulativeRotation.Z * Mathf.Rad2Deg; }
         }
+
 
         static public bool MotionIsAvailable
         {
@@ -207,12 +200,6 @@ namespace Device
                 gyroCurrentRotationRate = e.SensorReading.RotationRate;
                 TimeSpan timeSinceLastUpdate = e.SensorReading.Timestamp - gyroLastUpdateTime;
                 gyroCumulativeRotation += gyroCurrentRotationRate * (float)(timeSinceLastUpdate.TotalSeconds);
-                if (componentOutput)
-                {
-                    gyroCumulativeRotationOutput.X = MathHelper.ToDegrees(gyroCumulativeRotation.X);
-                    gyroCumulativeRotationOutput.Y = MathHelper.ToDegrees(gyroCumulativeRotation.Y);
-                    gyroCumulativeRotationOutput.Z = MathHelper.ToDegrees(gyroCumulativeRotation.Z);
-                }
                 gyroLastUpdateTime = e.SensorReading.Timestamp;
             }
         }
